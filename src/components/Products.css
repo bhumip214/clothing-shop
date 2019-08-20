@@ -1,0 +1,30 @@
+.products {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin: 40px auto;
+  width: 80%;
+}
+.product {
+  list-style: none;
+  border: 1px solid grey;
+  margin: 10px;
+  width: 361px;
+  height: 595px;
+}
+.product-detail {
+  font-size: 12px;
+}
+.dark-btn {
+  cursor: pointer;
+  background-color: black;
+  color: white;
+  padding: 20px;
+  width: 361px;
+  font-size: 16px;
+}
+
+.dark-btn:hover {
+  background-color: rgb(252, 248, 131);
+  color: black;
+}
