@@ -11,7 +11,10 @@ export function Products(props) {
               <img src={product.productImage} />
               <p className="product-detail">{product.name.toUpperCase()}</p>
               <p className="product-detail">{product.listPrice}</p>
-              <button className="dark-btn" onClick={props.handleAddToCart}>
+              <button
+                className="dark-btn"
+                onClick={id => props.handleAddToCart(product.uniqueId)}
+              >
                 Add to Cart
               </button>
             </li>
