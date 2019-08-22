@@ -1,5 +1,5 @@
 .navbar {
-  /* border: 1px solid grey; */
+  border: 1px solid grey;
   background-color: rgb(255, 0, 89);
   color: white;
   display: flex;
@@ -10,14 +10,17 @@
 .title {
   padding-left: 50px;
   font-size: 24px;
+  text-decoration: none;
+  color: white;
 }
 
-.shopping-cart-btn {
-  cursor: pointer;
-  background-color: white;
-  padding: 15px;
+.shopping-cart-link {
+  background-color: lightgrey;
+  padding: 0 20px;
   display: flex;
   align-items: center;
+  border: 1px solid grey;
+  text-decoration: none;
 }
 
 .cart-item-count {
