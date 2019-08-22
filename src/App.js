@@ -27,10 +27,14 @@ class App extends React.Component {
   }
 
   handleAddToCart = id => {
-    this.setState(({ count, cart }) => ({
-      count: count + 1,
-      cart: [...cart, id]
-    }));
+    this.setState(state => {
+      // const { count, cart } = state;
+
+      return {
+        count: state.count + 1,
+        cart: [...state.cart, id]
+      };
+    });
   };
 
   render() {
@@ -54,7 +58,12 @@ class App extends React.Component {
           exact
           path="/cart"
           render={props => (
-            <Cart {...props} count={this.state.count} cart={this.state.cart} />
+            <Cart
+              {...props}
+              count={this.state.count}
+              cart={this.state.cart}
+              products={this.state.products}
+            />
           )}
         />
       </div>

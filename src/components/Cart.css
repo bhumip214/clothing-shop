@@ -15,3 +15,21 @@
   padding-left: 10px;
   padding-right: 10px;
 }
+.cart-items {
+  padding: 0;
+}
+.cart-item {
+  display: flex;
+  justify-content: space-between;
+  text-decoration: none;
+  margin-bottom: 30px;
+  border-bottom: 1px solid grey;
+}
+
+.item-img-name {
+  text-align: left;
+}
+.cart-img {
+  width: 150px;
+  height: 200px;
+}
