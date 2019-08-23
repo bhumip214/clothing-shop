@@ -10,8 +10,12 @@ class App extends React.Component {
     super();
     this.state = {
       products: [],
-      count: 0,
-      cart: []
+      cart: localStorage.getItem("productIdArray")
+        ? localStorage.getItem("productIdArray").split(",")
+        : [],
+      count: localStorage.getItem("productIdArray")
+        ? localStorage.getItem("productIdArray").split(",").length
+        : 0
     };
   }
 
@@ -29,15 +33,16 @@ class App extends React.Component {
   handleAddToCart = id => {
     this.setState(state => {
       // const { count, cart } = state;
-
       return {
-        count: state.count + 1,
+        count: this.state.cart.length + 1,
         cart: [...state.cart, id]
       };
     });
   };
 
   render() {
+    localStorage.setItem("productIdArray", this.state.cart);
+
     return (
       <div className="App">
         <Navbar count={this.state.count} />

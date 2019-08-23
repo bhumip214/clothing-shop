@@ -2,13 +2,20 @@ import React from "react";
 import "./Cart.css";
 
 export function Cart(props) {
-  const foundItems = props.cart.map(itemId => {
+  const filteredCart = props.cart.filter(c => {
+    return c !== "";
+  });
+
+  console.log(filteredCart);
+
+  const foundItems = filteredCart.map(itemId => {
     return props.products.find(product => {
       return product.uniqueId === itemId;
     });
   });
 
   console.log(foundItems);
+
   return (
     <div className="cart">
       <div className="cart-title">
