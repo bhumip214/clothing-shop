@@ -15,7 +15,7 @@ export function Navbar(props) {
       >
         <img
           className="shopping-cart"
-          src="https://img.icons8.com/ios-filled/30/000000/shopping-cart.png"
+          src="https://img.icons8.com/metro/25/000000/shopping-bag.png"
           alt=""
         />
         <h3 className="cart-item-count">{props.count}</h3>

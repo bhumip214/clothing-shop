@@ -4,6 +4,7 @@ import "./App.css";
 import { Navbar } from "./components/Navbar";
 import { Products } from "./components/Products";
 import { Cart } from "./components/Cart";
+import { Product } from "./components/Product";
 
 class App extends React.Component {
   constructor() {
@@ -68,7 +69,6 @@ class App extends React.Component {
             <Products
               {...props}
               products={this.state.products}
-              handleAddToCart={this.handleAddToCart}
               handleLTHSort={this.handleLTHSort}
               handleHTLSort={this.handleHTLSort}
             />
@@ -84,6 +84,17 @@ class App extends React.Component {
               count={this.state.count}
               cart={this.state.cart}
               products={this.state.products}
+            />
+          )}
+        />
+
+        <Route
+          path="/product/:id"
+          render={props => (
+            <Product
+              {...props}
+              products={this.state.products}
+              handleAddToCart={this.handleAddToCart}
             />
           )}
         />

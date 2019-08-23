@@ -38,9 +38,11 @@ export function Cart(props) {
                     src={item.productImage}
                     alt={item.name}
                   />
-                  <p className="product-detail">{item.name.toUpperCase()}</p>
+                  <p className="product-overview-detail">
+                    {item.name.toUpperCase()}
+                  </p>
                 </div>
-                <p className="product-detail">{item.listPrice}</p>
+                <p className="product-overview-detail">{item.listPrice}</p>
               </li>
             );
           })}
