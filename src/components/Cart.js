@@ -6,15 +6,14 @@ export function Cart(props) {
     return c !== "";
   });
 
-  console.log(filteredCart);
-
-  const foundItems = filteredCart.map(itemId => {
-    return props.products.find(product => {
-      return product.uniqueId === itemId;
+  let foundItems = [];
+  if (props.products.length !== 0) {
+    foundItems = filteredCart.map(itemId => {
+      return props.products.find(product => {
+        return product.uniqueId === itemId;
+      });
     });
-  });
-
-  console.log(foundItems);
+  }
 
   return (
     <div className="cart">
