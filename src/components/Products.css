@@ -13,10 +13,14 @@
   border: 1px solid grey;
   margin: 10px;
   width: 361px;
-  height: 595px;
+  height: 540px;
 }
 .product-detail {
   font-size: 13px;
+}
+
+.link {
+  color: black;
 }
 .dark-btn {
   cursor: pointer;
