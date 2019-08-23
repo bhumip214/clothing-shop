@@ -40,6 +40,20 @@ class App extends React.Component {
     });
   };
 
+  handleLTHSort = () => {
+    const sortedProducts = this.state.products.sort((a, b) => {
+      return a.listPrice.slice(1) - b.listPrice.slice(1);
+    });
+    this.setState({ products: sortedProducts });
+  };
+
+  handleHTLSort = () => {
+    const sortedProducts = this.state.products.sort((a, b) => {
+      return b.listPrice.slice(1) - a.listPrice.slice(1);
+    });
+    this.setState({ products: sortedProducts });
+  };
+
   render() {
     localStorage.setItem("productIdArray", this.state.cart);
 
@@ -55,6 +69,8 @@ class App extends React.Component {
               {...props}
               products={this.state.products}
               handleAddToCart={this.handleAddToCart}
+              handleLTHSort={this.handleLTHSort}
+              handleHTLSort={this.handleHTLSort}
             />
           )}
         />

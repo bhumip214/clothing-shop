@@ -1,9 +1,12 @@
+.products-container {
+  margin: 40px auto;
+  width: 80%;
+}
+
 .products {
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
-  margin: 40px auto;
-  width: 80%;
 }
 .product {
   list-style: none;
@@ -27,4 +30,14 @@
 .dark-btn:hover {
   background-color: rgb(252, 248, 131);
   color: black;
+}
+
+.sort-btns {
+  margin: 30px auto;
+}
+
+.sort-btn {
+  padding: 10px;
+  margin-right: 10px;
+  font-size: 16px;
 }

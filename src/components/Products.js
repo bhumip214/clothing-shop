@@ -1,9 +1,14 @@
 import React from "react";
 import "./Products.css";
+import { Sort } from "./Sort";
 
 export function Products(props) {
   return (
-    <div>
+    <div className="products-container">
+      <Sort
+        handleLTHSort={props.handleLTHSort}
+        handleHTLSort={props.handleHTLSort}
+      />
       <ul className="products">
         {props.products.map(product => {
           return (
