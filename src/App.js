@@ -11,11 +11,11 @@ class App extends React.Component {
     super();
     this.state = {
       products: [],
-      cart: localStorage.getItem("productIdArray")
-        ? localStorage.getItem("productIdArray").split(",")
+      cart: localStorage.getItem("cart")
+        ? JSON.parse(localStorage.getItem("cart"))
         : [],
-      count: localStorage.getItem("productIdArray")
-        ? localStorage.getItem("productIdArray").split(",").length
+      count: localStorage.getItem("cart")
+        ? JSON.parse(localStorage.getItem("cart")).length
         : 0
     };
   }
@@ -32,15 +32,32 @@ class App extends React.Component {
   }
 
   handleAddToCart = id => {
-    this.setState(state => {
-      // const { count, cart } = state;
-      return {
-        count: this.state.cart.length + 1,
-        cart: [...state.cart, id]
-      };
-    });
+    this.setState(
+      state => {
+        // const { count, cart } = state;
+        return {
+          cart: [...state.cart, { id: id, qty: 1 }],
+          count: this.state.cart.length + 1
+        };
+      },
+      () => localStorage.setItem("cart", JSON.stringify(this.state.cart))
+    );
   };
 
+  handleDeleteFromCart = id => {
+    this.setState(
+      state => {
+        const cart = state.cart.filter(cartItem => {
+          return cartItem.id !== id;
+        });
+        return {
+          cart: cart,
+          count: cart.length
+        };
+      },
+      () => localStorage.setItem("cart", JSON.stringify(this.state.cart))
+    );
+  };
   handleLTHSort = () => {
     const sortedProducts = this.state.products.sort((a, b) => {
       return a.listPrice.slice(1) - b.listPrice.slice(1);
@@ -56,8 +73,6 @@ class App extends React.Component {
   };
 
   render() {
-    localStorage.setItem("productIdArray", this.state.cart);
-
     return (
       <div className="App">
         <Navbar count={this.state.count} />
@@ -84,6 +99,7 @@ class App extends React.Component {
               count={this.state.count}
               cart={this.state.cart}
               products={this.state.products}
+              handleDeleteFromCart={this.handleDeleteFromCart}
             />
           )}
         />

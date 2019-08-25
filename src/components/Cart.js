@@ -1,16 +1,15 @@
 import React from "react";
 import "./Cart.css";
+import { Link } from "react-router-dom";
 
 export function Cart(props) {
-  const filteredCart = props.cart.filter(c => {
-    return c !== "";
-  });
-
   let foundItems = [];
+  let quantity;
   if (props.products.length !== 0) {
-    foundItems = filteredCart.map(itemId => {
+    foundItems = props.cart.map(cartItem => {
+      quantity = cartItem.qty;
       return props.products.find(product => {
-        return product.uniqueId === itemId;
+        return product.uniqueId === cartItem.id;
       });
     });
   }
@@ -31,17 +30,28 @@ export function Cart(props) {
         <ul className="cart-items">
           {foundItems.map(item => {
             return (
-              <li key={item.uniqueId} className="cart-item">
+              <li key={item.uniqueId} className="cart-table item">
                 <div className="item-img-name">
                   <img
                     className="cart-img"
                     src={item.productImage}
                     alt={item.name}
                   />
-                  <p className="product-overview-detail">
-                    {item.name.toUpperCase()}
-                  </p>
+                  <div>
+                    <Link
+                      to={`/product/${item.uniqueId}`}
+                      className="product-overview-detail link"
+                    >
+                      <p>{item.name.toUpperCase()}</p>
+                    </Link>
+                    <button
+                      onClick={() => props.handleDeleteFromCart(item.uniqueId)}
+                    >
+                      Remove
+                    </button>
+                  </div>
                 </div>
+                <p className="product-overview-detail">{quantity}</p>
                 <p className="product-overview-detail">{item.listPrice}</p>
               </li>
             );

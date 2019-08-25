@@ -13,10 +13,11 @@
   border: 1px solid grey;
   margin: 10px;
   width: 361px;
-  height: 540px;
+  height: 520px;
 }
 .product-overview-detail {
   font-size: 13px;
+  margin: 0;
 }
 
 .link {

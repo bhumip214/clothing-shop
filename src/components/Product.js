@@ -1,11 +1,15 @@
 import React from "react";
 
 export function Product(props) {
-  let product = {};
+  let product;
   if (props.products.length !== 0) {
     product = props.products.find(product => {
       return product.uniqueId === props.match.params.id;
     });
+  }
+
+  if (!product) {
+    return <div>Loading...</div>;
   }
 
   console.log("p:", props.products, product);
