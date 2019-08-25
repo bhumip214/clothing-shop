@@ -4,10 +4,9 @@ import { Link } from "react-router-dom";
 
 export function Cart(props) {
   let foundItems = [];
-  let quantity;
+
   if (props.products.length !== 0) {
     foundItems = props.cart.map(cartItem => {
-      quantity = cartItem.qty;
       return props.products.find(product => {
         return product.uniqueId === cartItem.id;
       });
@@ -28,7 +27,7 @@ export function Cart(props) {
 
       <div>
         <ul className="cart-items">
-          {foundItems.map(item => {
+          {foundItems.map((item, index) => {
             return (
               <li key={item.uniqueId} className="cart-table item">
                 <div className="item-img-name">
@@ -51,7 +50,9 @@ export function Cart(props) {
                     </button>
                   </div>
                 </div>
-                <p className="product-overview-detail">{quantity}</p>
+                <p className="product-overview-detail">
+                  {props.cart[index].qty}
+                </p>
                 <p className="product-overview-detail">{item.listPrice}</p>
               </li>
             );

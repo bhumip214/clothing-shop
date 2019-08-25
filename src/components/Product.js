@@ -12,7 +12,6 @@ export function Product(props) {
     return <div>Loading...</div>;
   }
 
-  console.log("p:", props.products, product);
   return (
     <div className="product">
       <img src={product.productImage} alt={product.name} />

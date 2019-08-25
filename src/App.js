@@ -29,17 +29,28 @@ class App extends React.Component {
   }
 
   handleAddToCart = id => {
+    // if id exist then update qty to plus one
+    // else add new object with id and qty of 1
     this.setState(
       state => {
-        if (state.cart.length !== 0) {
-          state.cart.map(cartItem => {
-            if (cartItem.id === id) {
-              return cartItem.qty++;
-            }
-          });
-        } else {
+        const itemFound = state.cart.find(cartItem => {
+          return cartItem.id === id;
+        });
+        if (!itemFound) {
           return {
             cart: [...state.cart, { id: id, qty: 1 }]
+          };
+        } else {
+          const updatedItem = state.cart.map(cartItem => {
+            if (cartItem.id === id) {
+              return { ...cartItem, qty: cartItem.qty + 1 };
+            } else {
+              return cartItem;
+            }
+          });
+          console.log("updatedItem", updatedItem);
+          return {
+            cart: updatedItem
           };
         }
       },
