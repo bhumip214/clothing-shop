@@ -18,7 +18,7 @@ export function Navbar(props) {
           src="https://img.icons8.com/metro/25/000000/shopping-bag.png"
           alt=""
         />
-        <h3 className="cart-item-count">{props.cart.length}</h3>
+        <h3 className="cart-item-count">{props.count}</h3>
       </NavLink>
     </div>
   );

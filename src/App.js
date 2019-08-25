@@ -48,7 +48,6 @@ class App extends React.Component {
               return cartItem;
             }
           });
-          console.log("updatedItem", updatedItem);
           return {
             cart: updatedItem
           };
@@ -86,9 +85,13 @@ class App extends React.Component {
   };
 
   render() {
+    const count = this.state.cart.reduce((acc, cur) => {
+      return acc + cur.qty;
+    }, 0);
+
     return (
       <div className="App">
-        <Navbar cart={this.state.cart} />
+        <Navbar count={count} />
 
         <Route
           exact
@@ -111,6 +114,7 @@ class App extends React.Component {
               {...props}
               cart={this.state.cart}
               products={this.state.products}
+              count={count}
               handleDeleteFromCart={this.handleDeleteFromCart}
             />
           )}

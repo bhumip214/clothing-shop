@@ -17,7 +17,7 @@ export function Cart(props) {
     <div className="cart">
       <div className="cart-title">
         <h3>Cart</h3>
-        <span>({props.cart.length} items)</span>
+        <span>({props.count} items)</span>
       </div>
       <div className="cart-table">
         <p>Item</p>
