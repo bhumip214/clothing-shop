@@ -31,10 +31,17 @@ class App extends React.Component {
   handleAddToCart = id => {
     this.setState(
       state => {
-        return {
-          cart: [...state.cart, { id: id, qty: 1 }],
-          count: this.state.cart.length + 1
-        };
+        if (state.cart.length !== 0) {
+          state.cart.map(cartItem => {
+            if (cartItem.id === id) {
+              return cartItem.qty++;
+            }
+          });
+        } else {
+          return {
+            cart: [...state.cart, { id: id, qty: 1 }]
+          };
+        }
       },
       () => localStorage.setItem("cart", JSON.stringify(this.state.cart))
     );
@@ -47,8 +54,7 @@ class App extends React.Component {
           return cartItem.id !== id;
         });
         return {
-          cart: cart,
-          count: cart.length
+          cart: cart
         };
       },
       () => localStorage.setItem("cart", JSON.stringify(this.state.cart))
