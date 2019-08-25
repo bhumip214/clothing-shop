@@ -13,10 +13,7 @@ class App extends React.Component {
       products: [],
       cart: localStorage.getItem("cart")
         ? JSON.parse(localStorage.getItem("cart"))
-        : [],
-      count: localStorage.getItem("cart")
-        ? JSON.parse(localStorage.getItem("cart")).length
-        : 0
+        : []
     };
   }
 
@@ -34,7 +31,6 @@ class App extends React.Component {
   handleAddToCart = id => {
     this.setState(
       state => {
-        // const { count, cart } = state;
         return {
           cart: [...state.cart, { id: id, qty: 1 }],
           count: this.state.cart.length + 1
@@ -75,7 +71,7 @@ class App extends React.Component {
   render() {
     return (
       <div className="App">
-        <Navbar count={this.state.count} />
+        <Navbar cart={this.state.cart} />
 
         <Route
           exact
@@ -96,7 +92,6 @@ class App extends React.Component {
           render={props => (
             <Cart
               {...props}
-              count={this.state.count}
               cart={this.state.cart}
               products={this.state.products}
               handleDeleteFromCart={this.handleDeleteFromCart}
