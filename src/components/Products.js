@@ -2,6 +2,7 @@ import React from "react";
 import "./Products.css";
 import { Sort } from "./Sort";
 import { Link } from "react-router-dom";
+import { Pagination } from "./Pagination";
 
 export function Products(props) {
   return (
@@ -10,6 +11,9 @@ export function Products(props) {
         handleLTHSort={props.handleLTHSort}
         handleHTLSort={props.handleHTLSort}
       />
+      <div>
+        <Pagination pages={props.pages} currPage={props.currPage} />
+      </div>
       <ul className="products">
         {props.products.map(product => {
           return (
@@ -27,6 +31,9 @@ export function Products(props) {
           );
         })}
       </ul>
+      <div>
+        <Pagination pages={props.pages} currPage={props.currPage} />
+      </div>
     </div>
   );
 }

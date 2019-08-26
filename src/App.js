@@ -13,7 +13,9 @@ class App extends React.Component {
       products: [],
       cart: localStorage.getItem("cart")
         ? JSON.parse(localStorage.getItem("cart"))
-        : []
+        : [],
+      pages: 0,
+      currPage: 1
     };
   }
 
@@ -21,7 +23,12 @@ class App extends React.Component {
     fetch("http://localhost:8001/api/express/whatshot")
       .then(res => res.json())
       .then(data => {
-        this.setState({ products: data.products.products });
+        this.setState({
+          products: data.products.products,
+          pages: Math.ceil(
+            data.products.totalProductCount / data.products.pageSize
+          )
+        });
       })
       .catch(error => {
         console.log(error);
@@ -29,8 +36,6 @@ class App extends React.Component {
   }
 
   handleAddToCart = id => {
-    // if id exist then update qty to plus one
-    // else add new object with id and qty of 1
     this.setState(
       state => {
         const itemFound = state.cart.find(cartItem => {
@@ -102,6 +107,8 @@ class App extends React.Component {
               products={this.state.products}
               handleLTHSort={this.handleLTHSort}
               handleHTLSort={this.handleHTLSort}
+              pages={this.state.pages}
+              currPage={this.state.currPage}
             />
           )}
         />
