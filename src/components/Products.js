@@ -12,7 +12,11 @@ export function Products(props) {
         handleHTLSort={props.handleHTLSort}
       />
       <div>
-        <Pagination pages={props.pages} currPage={props.currPage} />
+        <Pagination
+          totalPages={props.totalPages}
+          currPage={props.currPage}
+          handleGoToPage={props.handleGoToPage}
+        />
       </div>
       <ul className="products">
         {props.products.map(product => {
@@ -32,7 +36,11 @@ export function Products(props) {
         })}
       </ul>
       <div>
-        <Pagination pages={props.pages} currPage={props.currPage} />
+        <Pagination
+          totalPages={props.totalPages}
+          currPage={props.currPage}
+          handleGoToPage={props.handleGoToPage}
+        />
       </div>
     </div>
   );

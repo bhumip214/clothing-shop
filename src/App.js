@@ -5,6 +5,7 @@ import { Navbar } from "./components/Navbar";
 import { Products } from "./components/Products";
 import { Cart } from "./components/Cart";
 import { Product } from "./components/Product";
+import { fetchProducts } from "./fetchProducts";
 
 class App extends React.Component {
   constructor() {
@@ -14,18 +15,17 @@ class App extends React.Component {
       cart: localStorage.getItem("cart")
         ? JSON.parse(localStorage.getItem("cart"))
         : [],
-      pages: 0,
+      totalPages: 1,
       currPage: 1
     };
   }
 
   componentDidMount() {
-    fetch("http://localhost:8001/api/express/whatshot")
-      .then(res => res.json())
+    fetchProducts(this.state.currPage)
       .then(data => {
         this.setState({
           products: data.products.products,
-          pages: Math.ceil(
+          totalPages: Math.ceil(
             data.products.totalProductCount / data.products.pageSize
           )
         });
@@ -89,6 +89,21 @@ class App extends React.Component {
     this.setState({ products: sortedProducts });
   };
 
+  handleGoToPage = page => {
+    this.setState({
+      currPage: page
+    });
+    fetchProducts(page)
+      .then(data => {
+        this.setState({
+          products: data.products.products
+        });
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  };
+
   render() {
     const count = this.state.cart.reduce((acc, cur) => {
       return acc + cur.qty;
@@ -107,8 +122,9 @@ class App extends React.Component {
               products={this.state.products}
               handleLTHSort={this.handleLTHSort}
               handleHTLSort={this.handleHTLSort}
-              pages={this.state.pages}
+              totalPages={this.state.totalPages}
               currPage={this.state.currPage}
+              handleGoToPage={this.handleGoToPage}
             />
           )}
         />
