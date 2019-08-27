@@ -1,17 +1,18 @@
 import React from "react";
 import { Route } from "react-router-dom";
-import "./App.css";
 import { Navbar } from "./components/Navbar";
 import { Products } from "./components/Products";
 import { Cart } from "./components/Cart";
 import { Product } from "./components/Product";
-import { fetchProducts } from "./fetchProducts";
+import { fetchProducts, fetchProduct } from "./components/helper";
+import "./App.css";
 
 class App extends React.Component {
   constructor() {
     super();
     this.state = {
       products: [],
+      productRequests: {},
       cart: localStorage.getItem("cart")
         ? JSON.parse(localStorage.getItem("cart"))
         : [],
@@ -34,6 +35,42 @@ class App extends React.Component {
         console.log(error);
       });
   }
+
+  /**
+   * Fetch product via API if we don't have the product in our cache.
+   */
+  fetchProductById = id => {
+    if (this.state.productRequests[id]) {
+      console.log("We already have this thing. Not gonna fetch man");
+      return;
+    }
+
+    this.setState({
+      productRequests: {
+        // spread old requests so we dont blow away our cache
+        ...this.state.productRequests,
+        [id]: {
+          isLoading: true,
+          error: null,
+          data: null
+        }
+      }
+    });
+
+    fetchProduct(id).then(data => {
+      this.setState({
+        productRequests: {
+          // spread old requests so we dont blow away our cache
+          ...this.state.productRequests,
+          [id]: {
+            isLoading: false,
+            error: null,
+            data
+          }
+        }
+      });
+    });
+  };
 
   handleAddToCart = id => {
     this.setState(
@@ -105,6 +142,8 @@ class App extends React.Component {
   };
 
   render() {
+    console.log("pr:", this.state.productRequests);
+
     const count = this.state.cart.reduce((acc, cur) => {
       return acc + cur.qty;
     }, 0);
@@ -148,7 +187,8 @@ class App extends React.Component {
           render={props => (
             <Product
               {...props}
-              products={this.state.products}
+              fetchProductById={this.fetchProductById}
+              productRequests={this.state.productRequests}
               handleAddToCart={this.handleAddToCart}
             />
           )}

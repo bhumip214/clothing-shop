@@ -39,6 +39,9 @@ app.get("/api/express/product/:id", (req, res) => {
     .get(`https://www.express.com/api/v2/product/${req.params.id}/detail`)
     .then(expressRes => {
       res.json(expressRes.data);
+    })
+    .catch(err => {
+      res.status(400).send(err);
     });
 });
 

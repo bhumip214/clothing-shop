@@ -1,16 +1,43 @@
 import React from "react";
+/*
+class ProductClassSolution extends React.Component {
+  componentDidMount() {
+    this.props.fetchProductById(this.props.match.params.id);
+  }
+
+  componentDidUpdate(prevProps) {
+    if (this.props.match.params.id !== prevProps.match.params.id) {
+      this.props.fetchProductById(this.props.match.params.id);
+    }
+  }
+
+  render() {
+    return <div className="product"></div>;
+  }
+}
+*/
 
 export function Product(props) {
-  let product;
-  if (props.products.length !== 0) {
-    product = props.products.find(product => {
-      return product.uniqueId === props.match.params.id;
-    });
-  }
+  const id = props.match.params.id;
 
-  if (!product) {
+  React.useEffect(() => {
+    console.log("--------Calling effect----------");
+    props.fetchProductById(id);
+  }, [id]);
+
+  let productInfo = props.productRequests[id];
+
+  console.log({ productInfo });
+
+  if (!productInfo || productInfo.isLoading) {
     return <div>Loading...</div>;
   }
+
+  if (productInfo.error) {
+    return <div>Error occurred fetching product</div>;
+  }
+
+  let product = productInfo.data;
 
   return (
     <div className="product">
@@ -24,7 +51,7 @@ export function Product(props) {
         <button
           className="dark-btn"
           onClick={() => {
-            props.handleAddToCart(product.uniqueId);
+            props.handleAddToCart(product.productId);
           }}
         >
           Add to Cart
