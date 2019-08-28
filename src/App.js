@@ -12,7 +12,9 @@ class App extends React.Component {
     super();
     this.state = {
       products: [],
-      productRequests: {},
+      productRequests: localStorage.getItem("productRequests")
+        ? JSON.parse(localStorage.getItem("productRequests"))
+        : {},
       cart: localStorage.getItem("cart")
         ? JSON.parse(localStorage.getItem("cart"))
         : [],
@@ -58,17 +60,26 @@ class App extends React.Component {
     });
 
     fetchProduct(id).then(data => {
-      this.setState({
-        productRequests: {
-          // spread old requests so we dont blow away our cache
-          ...this.state.productRequests,
-          [id]: {
-            isLoading: false,
-            error: null,
-            data
-          }
-        }
-      });
+      this.setState(
+        state => {
+          return {
+            productRequests: {
+              // spread old requests so we dont blow away our cache
+              ...state.productRequests,
+              [id]: {
+                isLoading: false,
+                error: null,
+                data
+              }
+            }
+          };
+        },
+        () =>
+          localStorage.setItem(
+            "productRequests",
+            JSON.stringify(this.state.productRequests)
+          )
+      );
     });
   };
 
@@ -143,6 +154,7 @@ class App extends React.Component {
 
   render() {
     console.log("pr:", this.state.productRequests);
+    console.log(this.state.cart);
 
     const count = this.state.cart.reduce((acc, cur) => {
       return acc + cur.qty;
@@ -176,6 +188,7 @@ class App extends React.Component {
               {...props}
               cart={this.state.cart}
               products={this.state.products}
+              productRequests={this.state.productRequests}
               count={count}
               handleDeleteFromCart={this.handleDeleteFromCart}
             />

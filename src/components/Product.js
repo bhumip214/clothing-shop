@@ -21,13 +21,10 @@ export function Product(props) {
   const id = props.match.params.id;
 
   React.useEffect(() => {
-    console.log("--------Calling effect----------");
     props.fetchProductById(id);
   }, [id]);
 
   let productInfo = props.productRequests[id];
-
-  console.log({ productInfo });
 
   if (!productInfo || productInfo.isLoading) {
     return <div>Loading...</div>;

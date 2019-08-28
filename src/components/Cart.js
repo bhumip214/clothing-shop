@@ -5,13 +5,12 @@ import { Link } from "react-router-dom";
 export function Cart(props) {
   let foundItems = [];
 
-  if (props.products.length !== 0) {
+  if (props.productRequests) {
     foundItems = props.cart.map(cartItem => {
-      return props.products.find(product => {
-        return product.uniqueId === cartItem.id;
-      });
+      return props.productRequests[cartItem.id].data;
     });
   }
+  console.log("found", foundItems);
 
   return (
     <div className="cart">
@@ -29,7 +28,7 @@ export function Cart(props) {
         <ul className="cart-items">
           {foundItems.map((item, index) => {
             return (
-              <li key={item.uniqueId} className="cart-table item">
+              <li key={item.productId} className="cart-table item">
                 <div className="item-img-name">
                   <img
                     className="cart-img"
@@ -38,7 +37,7 @@ export function Cart(props) {
                   />
                   <div>
                     <Link
-                      to={`/product/${item.uniqueId}`}
+                      to={`/product/${item.productId}`}
                       className="product-overview-detail link"
                     >
                       <p>{item.name.toUpperCase()}</p>
