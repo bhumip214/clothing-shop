@@ -1,5 +1,6 @@
 import React from "react";
-import { Route } from "react-router-dom";
+import { Route, withRouter } from "react-router-dom";
+import queryString from "query-string";
 import { Navbar } from "./components/Navbar";
 import { Products } from "./components/Products";
 import { Cart } from "./components/Cart";
@@ -8,18 +9,19 @@ import { fetchProducts, fetchProduct } from "./components/helper";
 import "./App.css";
 
 class App extends React.Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
+
+    const params = queryString.parse(props.location.search);
+
     this.state = {
       products: [],
-      productRequests: localStorage.getItem("productRequests")
-        ? JSON.parse(localStorage.getItem("productRequests"))
-        : {},
+      productRequests: {},
       cart: localStorage.getItem("cart")
         ? JSON.parse(localStorage.getItem("cart"))
         : [],
       totalPages: 1,
-      currPage: 1
+      currPage: params.page ? Number(params.page) : 1
     };
   }
 
@@ -60,26 +62,19 @@ class App extends React.Component {
     });
 
     fetchProduct(id).then(data => {
-      this.setState(
-        state => {
-          return {
-            productRequests: {
-              // spread old requests so we dont blow away our cache
-              ...state.productRequests,
-              [id]: {
-                isLoading: false,
-                error: null,
-                data
-              }
+      this.setState(state => {
+        return {
+          productRequests: {
+            // spread old requests so we dont blow away our cache
+            ...state.productRequests,
+            [id]: {
+              isLoading: false,
+              error: null,
+              data
             }
-          };
-        },
-        () =>
-          localStorage.setItem(
-            "productRequests",
-            JSON.stringify(this.state.productRequests)
-          )
-      );
+          }
+        };
+      });
     });
   };
 
@@ -153,9 +148,6 @@ class App extends React.Component {
   };
 
   render() {
-    console.log("pr:", this.state.productRequests);
-    console.log(this.state.cart);
-
     const count = this.state.cart.reduce((acc, cur) => {
       return acc + cur.qty;
     }, 0);
@@ -187,7 +179,7 @@ class App extends React.Component {
             <Cart
               {...props}
               cart={this.state.cart}
-              products={this.state.products}
+              fetchProductById={this.fetchProductById}
               productRequests={this.state.productRequests}
               count={count}
               handleDeleteFromCart={this.handleDeleteFromCart}
@@ -211,4 +203,4 @@ class App extends React.Component {
   }
 }
 
-export default App;
+export default withRouter(App);

@@ -19,10 +19,11 @@ class ProductClassSolution extends React.Component {
 
 export function Product(props) {
   const id = props.match.params.id;
+  const { fetchProductById } = props;
 
   React.useEffect(() => {
-    props.fetchProductById(id);
-  }, [id]);
+    fetchProductById(id);
+  }, [id, fetchProductById]);
 
   let productInfo = props.productRequests[id];
 

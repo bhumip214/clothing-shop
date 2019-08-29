@@ -1,16 +1,45 @@
 import React from "react";
+import PropTypes from "prop-types";
 import "./Cart.css";
 import { Link } from "react-router-dom";
 
 export function Cart(props) {
-  let foundItems = [];
+  const { cart, fetchProductById } = props;
 
-  if (props.productRequests) {
-    foundItems = props.cart.map(cartItem => {
-      return props.productRequests[cartItem.id].data;
+  React.useEffect(() => {
+    console.log("INSIDE USE EFFECT");
+    cart.forEach(cartItem => {
+      fetchProductById(cartItem.id);
     });
+  }, [cart, fetchProductById]);
+
+  // isLoading = is any item loading
+  let isLoading = false;
+  // hasError = does any item have error
+  let foundItems = [];
+  // foundItems = info.data[]
+  let notFoundCount = 0;
+
+  props.cart.forEach(cartItem => {
+    let productInfo = props.productRequests[cartItem.id];
+    if (productInfo) {
+      if (productInfo.data) {
+        foundItems.push(productInfo.data);
+      } else if (productInfo.isLoading) {
+        isLoading = productInfo.isLoading;
+      } else if (productInfo.hasError) {
+        notFoundCount++;
+      }
+    } else {
+      isLoading = true;
+    }
+  });
+
+  if (isLoading) {
+    return <div>Loading...</div>;
   }
-  console.log("found", foundItems);
+
+  console.log(foundItems);
 
   return (
     <div className="cart">
@@ -25,6 +54,9 @@ export function Cart(props) {
       </div>
 
       <div>
+        {notFoundCount > 0 ? (
+          <h1>{notFoundCount} items is not found!</h1>
+        ) : null}
         <ul className="cart-items">
           {foundItems.map((item, index) => {
             return (
@@ -61,3 +93,25 @@ export function Cart(props) {
     </div>
   );
 }
+
+Cart.propTypes = {
+  cart: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.string.isRequired,
+      qty: PropTypes.number.isRequired
+    })
+  )
+};
+
+// const cart = [{ id: "09705125", qty: 1 }, { id: "06978331", qty: 1 }];
+// const productRequests = {};
+
+// // [undefined, undefined]
+// let foundItems = cart.map(cartItem => {
+//   let productInfo = productRequests[cartItem.id]; // undefined
+//   if (productInfo) {
+//     return productInfo.data;
+//   } else {
+//     return undefined;
+//   }
+// });
