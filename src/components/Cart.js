@@ -7,7 +7,6 @@ export function Cart(props) {
   const { cart, fetchProductById } = props;
 
   React.useEffect(() => {
-    console.log("INSIDE USE EFFECT");
     cart.forEach(cartItem => {
       fetchProductById(cartItem.id);
     });
@@ -38,8 +37,6 @@ export function Cart(props) {
   if (isLoading) {
     return <div>Loading...</div>;
   }
-
-  console.log(foundItems);
 
   return (
     <div className="cart">
@@ -84,11 +81,25 @@ export function Cart(props) {
                 <p className="product-overview-detail">
                   {props.cart[index].qty}
                 </p>
-                <p className="product-overview-detail">{item.listPrice}</p>
+                <p className="product-overview-detail">
+                  ${item.listPrice.slice(1) * props.cart[index].qty}
+                </p>
               </li>
             );
           })}
         </ul>
+      </div>
+      <div className="cart-table">
+        <p>Total</p>
+        <p>{props.count}</p>
+        <p>
+          $
+          {foundItems.reduce((acc, curr, index) => {
+            let price = curr.listPrice.slice(1) * props.cart[index].qty;
+            console.log(price);
+            return acc + price;
+          }, 0)}
+        </p>
       </div>
     </div>
   );
