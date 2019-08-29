@@ -24,10 +24,11 @@ app.get("/api/products", (req, res) => {
 });
 
 app.get("/api/express/whatshot", (req, res) => {
-  const { page = 1, per_page = 60 } = req.query;
+  // sort can be empty string or 'skuLowPrice' or 'skuHighPrice' or 'startDate'
+  const { page = 1, per_page = 60, sort = "" } = req.query;
   axios
     .get(
-      `https://endeca.search.unbxd.io/b3094e45838bdcf3acf786d57e4ddd98/express_com-u1456154309768/category/cat120002?page=${page}&per_page=${per_page}`
+      `https://endeca.search.unbxd.io/b3094e45838bdcf3acf786d57e4ddd98/express_com-u1456154309768/category/cat120002?page=${page}&per_page=${per_page}&sort=${sort}`
     )
     .then(expressRes => {
       res.json(expressRes.data);
