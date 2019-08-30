@@ -1,4 +1,6 @@
 import React from "react";
+import { Link } from "react-router-dom";
+
 /*
 class ProductClassSolution extends React.Component {
   componentDidMount() {
@@ -37,24 +39,50 @@ export function Product(props) {
 
   let product = productInfo.data;
 
-  return (
-    <div className="product">
-      <img src={product.productImage} alt={product.name} />
-      <div className="product-detail">
-        <h3>{product.name.toUpperCase()}</h3>
+  console.log(product);
 
-        <p>Product ID: {product.productId}</p>
-        <p>Description: {product.productDescription}</p>
-        <p>Price: {product.listPrice}</p>
-        <button
-          className="dark-btn"
-          onClick={() => {
-            props.handleAddToCart(product.productId);
-          }}
-        >
-          Add to Cart
-        </button>
+  return (
+    <div>
+      <div className="product">
+        <img src={product.productImage} alt={product.name} />
+        <div className="product-detail">
+          <h3>{product.name.toUpperCase()}</h3>
+
+          <p>Product ID: {product.productId}</p>
+          <p>Description: {product.productDescription}</p>
+          <p>Price: {product.listPrice}</p>
+          <button
+            className="dark-btn"
+            onClick={() => {
+              props.handleAddToCart(product.productId);
+            }}
+          >
+            Add to Cart
+          </button>
+        </div>
       </div>
+      <ul className="products">
+        {product.relatedProducts.map(relatedProduct => {
+          return (
+            <li key={relatedProduct.productId} className="product-overview">
+              <Link
+                to={`/product/${relatedProduct.productId}`}
+                className="product-overview-detail link"
+              >
+                <img
+                  src={relatedProduct.productImage}
+                  alt={relatedProduct.name}
+                />
+
+                {relatedProduct.name.toUpperCase()}
+              </Link>
+              <p className="product-overview-detail">
+                {relatedProduct.listPrice}
+              </p>
+            </li>
+          );
+        })}
+      </ul>
     </div>
   );
 }
