@@ -21,12 +21,13 @@ class App extends React.Component {
         ? JSON.parse(localStorage.getItem("cart"))
         : [],
       totalPages: 1,
-      currPage: params.page ? Number(params.page) : 1
+      currPage: params.page ? Number(params.page) : 1,
+      sort: ""
     };
   }
 
   componentDidMount() {
-    fetchProducts(this.state.currPage)
+    fetchProducts(this.state.currPage, this.state.sort)
       .then(data => {
         this.setState({
           products: data.products.products,
@@ -118,25 +119,27 @@ class App extends React.Component {
       () => localStorage.setItem("cart", JSON.stringify(this.state.cart))
     );
   };
-  handleLTHSort = () => {
-    const sortedProducts = this.state.products.sort((a, b) => {
-      return a.listPrice.slice(1) - b.listPrice.slice(1);
-    });
-    this.setState({ products: sortedProducts });
-  };
+  handleSort = sort => {
+    const page = 1;
 
-  handleHTLSort = () => {
-    const sortedProducts = this.state.products.sort((a, b) => {
-      return b.listPrice.slice(1) - a.listPrice.slice(1);
-    });
-    this.setState({ products: sortedProducts });
+    this.setState({ sort: sort, currPage: page });
+
+    fetchProducts(page, sort)
+      .then(data => {
+        this.setState({
+          products: data.products.products
+        });
+      })
+      .catch(error => {
+        console.log(error);
+      });
   };
 
   handleGoToPage = page => {
     this.setState({
       currPage: page
     });
-    fetchProducts(page)
+    fetchProducts(page, this.state.sort)
       .then(data => {
         this.setState({
           products: data.products.products
@@ -163,10 +166,10 @@ class App extends React.Component {
             <Products
               {...props}
               products={this.state.products}
-              handleLTHSort={this.handleLTHSort}
-              handleHTLSort={this.handleHTLSort}
-              totalPages={this.state.totalPages}
               currPage={this.state.currPage}
+              totalPages={this.state.totalPages}
+              sort={this.state.sort}
+              handleSort={this.handleSort}
               handleGoToPage={this.handleGoToPage}
             />
           )}

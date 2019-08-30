@@ -96,7 +96,6 @@ export function Cart(props) {
           $
           {foundItems.reduce((acc, curr, index) => {
             let price = curr.listPrice.slice(1) * props.cart[index].qty;
-            console.log(price);
             return acc + price;
           }, 0)}
         </p>
