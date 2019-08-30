@@ -39,8 +39,6 @@ export function Product(props) {
 
   let product = productInfo.data;
 
-  console.log(product);
-
   return (
     <div>
       <div className="product">

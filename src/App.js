@@ -22,7 +22,7 @@ class App extends React.Component {
         : [],
       totalPages: 1,
       currPage: params.page ? Number(params.page) : 1,
-      sort: ""
+      sort: params.sort ? params.sort : ""
     };
   }
 
@@ -119,6 +119,7 @@ class App extends React.Component {
       () => localStorage.setItem("cart", JSON.stringify(this.state.cart))
     );
   };
+
   handleSort = sort => {
     const page = 1;
 
@@ -133,6 +134,8 @@ class App extends React.Component {
       .catch(error => {
         console.log(error);
       });
+
+    this.props.history.push(`?page=1&sort=${sort}`);
   };
 
   handleGoToPage = page => {

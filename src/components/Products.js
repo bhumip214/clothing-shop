@@ -7,7 +7,11 @@ import { Pagination } from "./Pagination";
 export function Products(props) {
   return (
     <div className="products-container">
-      <Sort handleSort={props.handleSort} currPage={props.currPage} />
+      <Sort
+        handleSort={props.handleSort}
+        currPage={props.currPage}
+        sort={props.sort}
+      />
       <div>
         <Pagination
           totalPages={props.totalPages}

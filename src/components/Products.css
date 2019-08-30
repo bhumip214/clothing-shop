@@ -36,7 +36,7 @@
   color: black;
 }
 
-.sort-btns {
+/* .sort-btns {
   margin: 30px auto;
 }
 
@@ -44,7 +44,7 @@
   padding: 10px;
   margin-right: 10px;
   font-size: 16px;
-}
+} */
 
 .product {
   display: flex;
