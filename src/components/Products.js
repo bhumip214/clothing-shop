@@ -7,15 +7,13 @@ import { Pagination } from "./Pagination";
 export function Products(props) {
   return (
     <div className="products-container">
-      <Sort
-        handleLTHSort={props.handleLTHSort}
-        handleHTLSort={props.handleHTLSort}
-      />
+      <Sort handleSort={props.handleSort} currPage={props.currPage} />
       <div>
         <Pagination
           totalPages={props.totalPages}
           currPage={props.currPage}
           handleGoToPage={props.handleGoToPage}
+          sort={props.sort}
         />
       </div>
       <ul className="products">
@@ -40,6 +38,7 @@ export function Products(props) {
           totalPages={props.totalPages}
           currPage={props.currPage}
           handleGoToPage={props.handleGoToPage}
+          sort={props.sort}
         />
       </div>
     </div>
