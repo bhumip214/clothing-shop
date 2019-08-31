@@ -48,7 +48,7 @@ function getFilter({ size, color }) {
 
 app.get("/api/express/whatshot", (req, res) => {
   // sort can be empty string or 'skuLowPrice' or 'skuHighPrice' or 'startDate'
-  const { page = 1, per_page = 60, size = [], color = [] } = req.query;
+  const { page = 1, per_page = 60 } = req.query;
   const sort = req.query.sort || "relevance";
 
   let query = querystring.stringify({
@@ -59,7 +59,7 @@ app.get("/api/express/whatshot", (req, res) => {
 
   const filterParam = getFilter(req.query);
 
-  query += "&" + filterParam;
+  query += "&filter=" + filterParam;
 
   console.log({ query });
 
