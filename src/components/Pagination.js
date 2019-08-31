@@ -2,7 +2,7 @@ import React from "react";
 import classnames from "classnames";
 import { NavLink } from "react-router-dom";
 export function Pagination(props) {
-  let paginationBtns = [<button className="page-btn"> {"<"} </button>];
+  let paginationBtns = [];
   for (let i = 1; i <= props.totalPages; i++) {
     paginationBtns.push(
       <NavLink to={`?page=${i}&sort=${props.sort}`}>
@@ -18,6 +18,6 @@ export function Pagination(props) {
       </NavLink>
     );
   }
-  paginationBtns.push(<button className="page-btn"> {">"} </button>);
+
   return paginationBtns;
 }
