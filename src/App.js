@@ -52,6 +52,60 @@ class App extends React.Component {
       });
   }
 
+  handleSort = sort => {
+    const page = 1;
+
+    this.setState({ sort: sort, currPage: page });
+
+    fetchProducts(page, sort, this.state.color)
+      .then(data => {
+        this.setState({
+          products: data.products.products
+        });
+      })
+      .catch(error => {
+        console.log(error);
+      });
+
+    this.props.history.push(`?page=1&sort=${sort}&color=${this.state.color}`);
+  };
+
+  handleColor = color => {
+    const page = 1;
+
+    this.setState({ color: color, currPage: page });
+
+    fetchProducts(page, this.state.sort, color)
+      .then(data => {
+        this.setState({
+          products: data.products.products,
+          totalPages: Math.ceil(
+            data.products.totalProductCount / data.products.pageSize
+          )
+        });
+      })
+      .catch(error => {
+        console.log(error);
+      });
+
+    this.props.history.push(`?page=1&sort=${this.state.sort}&color=${color}`);
+  };
+
+  handleGoToPage = page => {
+    this.setState({
+      currPage: page
+    });
+    fetchProducts(page, this.state.sort, this.state.color)
+      .then(data => {
+        this.setState({
+          products: data.products.products
+        });
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  };
+
   /**
    * Fetch product via API if we don't have the product in our cache.
    */
@@ -131,63 +185,7 @@ class App extends React.Component {
     );
   };
 
-  handleSort = sort => {
-    const page = 1;
-
-    this.setState({ sort: sort, currPage: page });
-
-    fetchProducts(page, sort, this.state.color)
-      .then(data => {
-        this.setState({
-          products: data.products.products
-        });
-      })
-      .catch(error => {
-        console.log(error);
-      });
-
-    this.props.history.push(`?page=1&sort=${sort}&color=${this.state.color}`);
-  };
-
-  handleColor = color => {
-    const page = 1;
-
-    this.setState({ color: color, currPage: page });
-
-    fetchProducts(page, this.state.sort, color)
-      .then(data => {
-        this.setState({
-          products: data.products.products,
-          totalPages: Math.ceil(
-            data.products.totalProductCount / data.products.pageSize
-          )
-        });
-      })
-      .catch(error => {
-        console.log(error);
-      });
-
-    this.props.history.push(`?page=1&sort=${this.state.sort}&color=${color}`);
-  };
-
-  handleGoToPage = page => {
-    this.setState({
-      currPage: page
-    });
-    fetchProducts(page, this.state.sort, this.state.color)
-      .then(data => {
-        this.setState({
-          products: data.products.products
-        });
-      })
-      .catch(error => {
-        console.log(error);
-      });
-  };
-
   render() {
-    console.log(this.state.color);
-
     const count = this.state.cart.reduce((acc, cur) => {
       return acc + cur.qty;
     }, 0);

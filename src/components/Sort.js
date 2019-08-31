@@ -21,8 +21,6 @@ export function Sort(props) {
     return props.color === option.value;
   });
 
-  console.log(color);
-
   return (
     <div className="">
       <Select
