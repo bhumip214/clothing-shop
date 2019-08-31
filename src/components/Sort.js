@@ -1,9 +1,8 @@
 import React from "react";
-import { NavLink } from "react-router-dom";
 import Select from "react-select";
 
 const sortOptions = [
-  { value: "", label: "Featured" },
+  { value: "relevance", label: "Featured" },
   { value: "skuLowPrice", label: "Low to High Price" },
   { value: "skuHighPrice", label: "High to Low Price" },
   { value: "startDate", label: "New Arrivals" }
@@ -14,15 +13,38 @@ export function Sort(props) {
     return props.sort === option.value;
   });
 
+  const colorOptions = props.colorOptions.map(color => {
+    return { value: color, label: color };
+  });
+
+  const color = colorOptions.find(option => {
+    return props.color === option.value;
+  });
+
+  console.log(color);
+
   return (
     <div className="">
       <Select
-        defaultValue={option}
+        value={option}
         name="sort"
         options={sortOptions}
         onChange={(sortOption, action) => {
-          console.log(sortOption, action);
           props.handleSort(sortOption.value);
+        }}
+      />
+      <Select
+        value={color}
+        name="color"
+        isClearable
+        options={colorOptions}
+        onChange={(colorOption, action) => {
+          console.log(action);
+          if (colorOption) {
+            props.handleColor(colorOption.value);
+          } else {
+            props.handleColor("");
+          }
         }}
       />
     </div>

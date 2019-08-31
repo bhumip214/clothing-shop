@@ -9,8 +9,12 @@ export function Products(props) {
     <div className="products-container">
       <Sort
         handleSort={props.handleSort}
+        handleColor={props.handleColor}
         currPage={props.currPage}
         sort={props.sort}
+        colorOptions={props.colorOptions}
+        color={props.color}
+        sizeOptions={props.sizeOptions}
       />
       <div>
         <Pagination
