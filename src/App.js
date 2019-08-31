@@ -22,18 +22,28 @@ class App extends React.Component {
         : [],
       totalPages: 1,
       currPage: params.page ? Number(params.page) : 1,
-      sort: params.sort ? params.sort : ""
+      sort: params.sort ? params.sort : "",
+      color: [],
+      size: []
     };
   }
 
   componentDidMount() {
     fetchProducts(this.state.currPage, this.state.sort)
       .then(data => {
+        const color = data.facets.facets.find(facet => {
+          return facet.facetId === "color_uFilter";
+        });
+        const size = data.facets.facets.find(facet => {
+          return facet.facetId === "size_uFilter";
+        });
         this.setState({
           products: data.products.products,
           totalPages: Math.ceil(
             data.products.totalProductCount / data.products.pageSize
-          )
+          ),
+          color: color.values,
+          size: size.values
         });
       })
       .catch(error => {
@@ -71,7 +81,7 @@ class App extends React.Component {
             [id]: {
               isLoading: false,
               error: null,
-              data
+              data: data
             }
           }
         };
@@ -154,6 +164,7 @@ class App extends React.Component {
   };
 
   render() {
+    console.log(this.state.color, this.state.size);
     const count = this.state.cart.reduce((acc, cur) => {
       return acc + cur.qty;
     }, 0);
@@ -172,6 +183,8 @@ class App extends React.Component {
               currPage={this.state.currPage}
               totalPages={this.state.totalPages}
               sort={this.state.sort}
+              color={this.state.color}
+              size={this.state.size}
               handleSort={this.handleSort}
               handleGoToPage={this.handleGoToPage}
             />
