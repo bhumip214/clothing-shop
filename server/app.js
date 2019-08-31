@@ -24,23 +24,42 @@ app.get("/api/products", (req, res) => {
   });
 });
 
+function getFilter({ size, color }) {
+  let filters = [];
+
+  if (size) {
+    if (Array.isArray(size) && size.length > 0) {
+      filters.push("size_uFilter:" + size.join("|"));
+    } else if (typeof size === "string") {
+      filters.push("size_uFilter:" + size);
+    }
+  }
+
+  if (color) {
+    if (Array.isArray(color) && color.length > 0) {
+      filters.push("color_uFilter:" + color.join("|"));
+    } else if (typeof color === "string") {
+      filters.push("color_uFilter:" + color);
+    }
+  }
+
+  return filters.join(";");
+}
+
 app.get("/api/express/whatshot", (req, res) => {
   // sort can be empty string or 'skuLowPrice' or 'skuHighPrice' or 'startDate'
-  const {
-    page = 1,
-    per_page = 60,
-    sort = "",
-    size_uFilter = [],
-    color_uFilter = []
-  } = req.query;
+  const { page = 1, per_page = 60, size = [], color = [] } = req.query;
+  const sort = req.query.sort || "relevance";
 
-  const query = querystring.stringify({
+  let query = querystring.stringify({
     page,
     per_page,
-    sort,
-    size_uFilter: size_uFilter.join("|"),
-    color_uFilter: color_uFilter.join("|")
+    sort
   });
+
+  const filterParam = getFilter(req.query);
+
+  query += "&" + filterParam;
 
   console.log({ query });
 
