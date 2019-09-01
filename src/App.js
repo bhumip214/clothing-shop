@@ -30,52 +30,35 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    fetchProducts(this.state.currPage, this.state.sort, this.state.color)
-      .then(data => {
-        const colors = data.facets.facets.find(facet => {
-          return facet.facetId === "color_uFilter";
-        });
-        const sizes = data.facets.facets.find(facet => {
-          return facet.facetId === "size_uFilter";
-        });
-        this.setState({
-          products: data.products.products,
-          totalPages: Math.ceil(
-            data.products.totalProductCount / data.products.pageSize
-          ),
-          colorOptions: colors.values,
-          sizeOptions: sizes.values
-        });
-      })
-      .catch(error => {
-        console.log(error);
+    this.performFetchProducts(
+      this.state.currPage,
+      this.state.sort,
+      this.state.color,
+      false
+    ).then(facets => {
+      // only update size and color initially so user can see all possible options
+      const colors = facets.find(facet => {
+        return facet.facetId === "color_uFilter";
       });
+      const sizes = facets.find(facet => {
+        return facet.facetId === "size_uFilter";
+      });
+
+      this.setState({
+        colorOptions: colors.values,
+        sizeOptions: sizes.values
+      });
+    });
   }
 
-  handleSort = sort => {
-    const page = 1;
+  performFetchProducts = (page, sort, color, updateHistory = true) => {
+    this.setState({
+      currPage: page,
+      sort: sort,
+      color: color
+    });
 
-    this.setState({ sort: sort, currPage: page });
-
-    fetchProducts(page, sort, this.state.color)
-      .then(data => {
-        this.setState({
-          products: data.products.products
-        });
-      })
-      .catch(error => {
-        console.log(error);
-      });
-
-    this.props.history.push(`?page=1&sort=${sort}&color=${this.state.color}`);
-  };
-
-  handleColor = color => {
-    const page = 1;
-
-    this.setState({ color: color, currPage: page });
-
-    fetchProducts(page, this.state.sort, color)
+    const promise = fetchProducts(page, sort, color)
       .then(data => {
         this.setState({
           products: data.products.products,
@@ -83,27 +66,31 @@ class App extends React.Component {
             data.products.totalProductCount / data.products.pageSize
           )
         });
+
+        return data.facets.facets;
       })
+
       .catch(error => {
         console.log(error);
       });
 
-    this.props.history.push(`?page=1&sort=${this.state.sort}&color=${color}`);
+    if (updateHistory) {
+      this.props.history.push(`?page=${page}&sort=${sort}&color=${color}`);
+    }
+
+    return promise;
+  };
+
+  handleSort = sort => {
+    this.performFetchProducts(1, sort, this.state.color);
+  };
+
+  handleColor = color => {
+    this.performFetchProducts(1, this.state.sort, color);
   };
 
   handleGoToPage = page => {
-    this.setState({
-      currPage: page
-    });
-    fetchProducts(page, this.state.sort, this.state.color)
-      .then(data => {
-        this.setState({
-          products: data.products.products
-        });
-      })
-      .catch(error => {
-        console.log(error);
-      });
+    this.performFetchProducts(page, this.state.sort, this.state.color);
   };
 
   /**

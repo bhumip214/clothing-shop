@@ -5,9 +5,8 @@ export function Pagination(props) {
   let paginationBtns = [];
   for (let i = 1; i <= props.totalPages; i++) {
     paginationBtns.push(
-      <NavLink to={`?page=${i}&sort=${props.sort}`}>
+      <NavLink key={i} to={`?page=${i}&sort=${props.sort}`}>
         <button
-          key={i}
           className={classnames("page-btn", {
             active: props.currPage === i
           })}

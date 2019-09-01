@@ -37,7 +37,6 @@ export function Sort(props) {
         isClearable
         options={colorOptions}
         onChange={(colorOption, action) => {
-          console.log(action);
           if (colorOption) {
             props.handleColor(colorOption.value);
           } else {
