@@ -1,5 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import Loader from "react-loader-spinner";
+import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 
 /*
 class ProductClassSolution extends React.Component {
@@ -30,7 +32,15 @@ export function Product(props) {
   let productInfo = props.productRequests[id];
 
   if (!productInfo || productInfo.isLoading) {
-    return <div>Loading...</div>;
+    return (
+      <Loader
+        type="Puff"
+        color="#333"
+        height="100"
+        width="100"
+        className="loader"
+      />
+    );
   }
 
   if (productInfo.error) {
