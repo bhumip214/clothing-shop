@@ -24,7 +24,7 @@ class App extends React.Component {
       currPage: params.page ? Number(params.page) : 1,
       sort: params.sort ? params.sort : "relevance",
       colorOptions: [],
-      color: params.color ? params.color : "",
+      color: params.color ? params.color.split(",") : [],
       sizeOptions: []
     };
   }
@@ -75,7 +75,13 @@ class App extends React.Component {
       });
 
     if (updateHistory) {
-      this.props.history.push(`?page=${page}&sort=${sort}&color=${color}`);
+      if (color.length !== 0) {
+        return this.props.history.push(
+          `?page=${page}&sort=${sort}&color=${color}`
+        );
+      } else {
+        return this.props.history.push(`?page=${page}&sort=${sort}`);
+      }
     }
 
     return promise;
@@ -86,6 +92,7 @@ class App extends React.Component {
   };
 
   handleColor = color => {
+    console.log(color);
     this.performFetchProducts(1, this.state.sort, color);
   };
 
@@ -173,6 +180,8 @@ class App extends React.Component {
   };
 
   render() {
+    console.log(this.state.color);
+
     const count = this.state.cart.reduce((acc, cur) => {
       return acc + cur.qty;
     }, 0);

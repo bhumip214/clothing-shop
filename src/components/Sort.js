@@ -17,8 +17,10 @@ export function Sort(props) {
     return { value: color, label: color };
   });
 
-  const color = colorOptions.find(option => {
-    return props.color === option.value;
+  const color = props.color.map(color => {
+    return colorOptions.find(option => {
+      return color === option.value;
+    });
   });
 
   return (
@@ -35,12 +37,16 @@ export function Sort(props) {
         value={color}
         name="color"
         isClearable
+        isMulti
         options={colorOptions}
         onChange={(colorOption, action) => {
           if (colorOption) {
-            props.handleColor(colorOption.value);
+            const colors = colorOption.map(color => {
+              return color.value;
+            });
+            props.handleColor(colors);
           } else {
-            props.handleColor("");
+            props.handleColor([]);
           }
         }}
       />
