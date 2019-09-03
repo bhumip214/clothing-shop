@@ -27,7 +27,7 @@ class App extends React.Component {
       colorOptions: [],
       color: params.color ? params.color.split(",") : [],
       sizeOptions: [],
-      size: params.size ? params.size : ""
+      size: params.size ? params.size.split(",") : []
     };
   }
 

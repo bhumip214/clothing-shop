@@ -27,8 +27,10 @@ export function Sort(props) {
     return { value: size, label: size };
   });
 
-  const size = sizeOptions.find(option => {
-    return props.size === option.value;
+  const size = props.size.map(size => {
+    return sizeOptions.find(option => {
+      return size === option.value;
+    });
   });
 
   return (
@@ -64,12 +66,16 @@ export function Sort(props) {
         value={size}
         name="size"
         isClearable
+        isMulti
         options={sizeOptions}
         onChange={(sizeOption, action) => {
           if (sizeOption) {
-            props.handleSize(sizeOption.value);
+            const sizes = sizeOption.map(size => {
+              return size.value;
+            });
+            props.handleSize(sizes);
           } else {
-            props.handleSize("");
+            props.handleSize([]);
           }
         }}
       />
