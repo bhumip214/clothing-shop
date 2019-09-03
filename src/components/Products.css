@@ -3,6 +3,9 @@
   width: 80%;
 }
 
+.loader {
+  margin: 200px;
+}
 .products {
   display: flex;
   justify-content: center;

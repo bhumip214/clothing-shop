@@ -25,7 +25,8 @@ class App extends React.Component {
       sort: params.sort ? params.sort : "relevance",
       colorOptions: [],
       color: params.color ? params.color.split(",") : [],
-      sizeOptions: []
+      sizeOptions: [],
+      loading: true
     };
   }
 
@@ -61,6 +62,7 @@ class App extends React.Component {
     const promise = fetchProducts(page, sort, color)
       .then(data => {
         this.setState({
+          loading: false,
           products: data.products.products,
           totalPages: Math.ceil(
             data.products.totalProductCount / data.products.pageSize
@@ -180,8 +182,6 @@ class App extends React.Component {
   };
 
   render() {
-    console.log(this.state.color);
-
     const count = this.state.cart.reduce((acc, cur) => {
       return acc + cur.qty;
     }, 0);
@@ -189,13 +189,13 @@ class App extends React.Component {
     return (
       <div className="App">
         <Navbar count={count} />
-
         <Route
           exact
           path="/"
           render={props => (
             <Products
               {...props}
+              loading={this.state.loading}
               products={this.state.products}
               currPage={this.state.currPage}
               totalPages={this.state.totalPages}
@@ -224,7 +224,6 @@ class App extends React.Component {
             />
           )}
         />
-
         <Route
           path="/product/:id"
           render={props => (
