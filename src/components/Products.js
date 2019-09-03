@@ -10,13 +10,15 @@ export function Products(props) {
   return (
     <div className="products-container">
       <Sort
-        handleSort={props.handleSort}
-        handleColor={props.handleColor}
         currPage={props.currPage}
         sort={props.sort}
         colorOptions={props.colorOptions}
         color={props.color}
         sizeOptions={props.sizeOptions}
+        size={props.size}
+        handleSort={props.handleSort}
+        handleColor={props.handleColor}
+        handleSize={props.handleSize}
       />
 
       {props.loading ? (

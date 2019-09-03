@@ -23,6 +23,14 @@ export function Sort(props) {
     });
   });
 
+  const sizeOptions = props.sizeOptions.map(size => {
+    return { value: size, label: size };
+  });
+
+  const size = sizeOptions.find(option => {
+    return props.size === option.value;
+  });
+
   return (
     <div className="">
       <Select
@@ -30,6 +38,7 @@ export function Sort(props) {
         name="sort"
         options={sortOptions}
         onChange={(sortOption, action) => {
+          console.log(sortOption);
           props.handleSort(sortOption.value);
         }}
       />
@@ -47,6 +56,20 @@ export function Sort(props) {
             props.handleColor(colors);
           } else {
             props.handleColor([]);
+          }
+        }}
+      />
+
+      <Select
+        value={size}
+        name="size"
+        isClearable
+        options={sizeOptions}
+        onChange={(sizeOption, action) => {
+          if (sizeOption) {
+            props.handleSize(sizeOption.value);
+          } else {
+            props.handleSize("");
           }
         }}
       />

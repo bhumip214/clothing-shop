@@ -15,6 +15,7 @@ class App extends React.Component {
     const params = queryString.parse(props.location.search);
 
     this.state = {
+      loading: true,
       products: [],
       productRequests: {},
       cart: localStorage.getItem("cart")
@@ -26,7 +27,7 @@ class App extends React.Component {
       colorOptions: [],
       color: params.color ? params.color.split(",") : [],
       sizeOptions: [],
-      loading: true
+      size: params.size ? params.size : ""
     };
   }
 
@@ -35,6 +36,7 @@ class App extends React.Component {
       this.state.currPage,
       this.state.sort,
       this.state.color,
+      this.state.size,
       false
     ).then(facets => {
       // only update size and color initially so user can see all possible options
@@ -52,14 +54,15 @@ class App extends React.Component {
     });
   }
 
-  performFetchProducts = (page, sort, color, updateHistory = true) => {
+  performFetchProducts = (page, sort, color, size, updateHistory = true) => {
     this.setState({
       currPage: page,
       sort: sort,
-      color: color
+      color: color,
+      size: size
     });
 
-    const promise = fetchProducts(page, sort, color)
+    const promise = fetchProducts(page, sort, color, size)
       .then(data => {
         this.setState({
           loading: false,
@@ -79,10 +82,12 @@ class App extends React.Component {
     if (updateHistory) {
       if (color.length !== 0) {
         return this.props.history.push(
-          `?page=${page}&sort=${sort}&color=${color}`
+          `?page=${page}&sort=${sort}&color=${color}&size=${size}`
         );
       } else {
-        return this.props.history.push(`?page=${page}&sort=${sort}`);
+        return this.props.history.push(
+          `?page=${page}&sort=${sort}&size=${size}`
+        );
       }
     }
 
@@ -90,16 +95,23 @@ class App extends React.Component {
   };
 
   handleSort = sort => {
-    this.performFetchProducts(1, sort, this.state.color);
+    this.performFetchProducts(1, sort, this.state.color, this.state.size);
   };
 
   handleColor = color => {
-    console.log(color);
-    this.performFetchProducts(1, this.state.sort, color);
+    this.performFetchProducts(1, this.state.sort, color, this.state.size);
   };
 
+  handleSize = size => {
+    this.performFetchProducts(1, this.state.sort, this.state.color, size);
+  };
   handleGoToPage = page => {
-    this.performFetchProducts(page, this.state.sort, this.state.color);
+    this.performFetchProducts(
+      page,
+      this.state.sort,
+      this.state.color,
+      this.state.size
+    );
   };
 
   /**
@@ -203,8 +215,10 @@ class App extends React.Component {
               colorOptions={this.state.colorOptions}
               color={this.state.color}
               sizeOptions={this.state.sizeOptions}
+              size={this.state.size}
               handleSort={this.handleSort}
               handleColor={this.handleColor}
+              handleSize={this.handleSize}
               handleGoToPage={this.handleGoToPage}
             />
           )}
