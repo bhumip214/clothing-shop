@@ -94,10 +94,12 @@ export function Cart(props) {
         <p>{props.count}</p>
         <p>
           $
-          {foundItems.reduce((acc, curr, index) => {
-            let price = curr.listPrice.slice(1) * props.cart[index].qty;
-            return acc + price;
-          }, 0)}
+          {foundItems
+            .reduce((acc, curr, index) => {
+              let price = curr.listPrice.slice(1) * props.cart[index].qty;
+              return acc + price;
+            }, 0)
+            .toFixed(2)}
         </p>
       </div>
     </div>

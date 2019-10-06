@@ -1,0 +1,22 @@
+.sort {
+  display: flex;
+  justify-content: space-between;
+  width: 70%;
+  margin: 0 auto;
+  margin-bottom: 40px;
+}
+@media (max-width: 600px) {
+  .sort {
+    flex-direction: column;
+  }
+}
+
+.select {
+  width: 32%;
+}
+@media (max-width: 600px) {
+  .select {
+    width: 100%;
+    margin-bottom: 10px;
+  }
+}

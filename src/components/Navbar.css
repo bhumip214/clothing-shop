@@ -1,20 +1,19 @@
 .navbar {
-  border: 1px solid grey;
+  border-bottom: 1px solid grey;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  padding: 0 50px;
 }
 
 .title {
   color: black;
   font-weight: bold;
-  padding-left: 50px;
   font-size: 24px;
   text-decoration: none;
 }
 
 .shopping-cart-link {
-  padding: 0 20px;
   display: flex;
   align-items: center;
   text-decoration: none;
@@ -25,4 +24,5 @@
   border-radius: 50%;
   border: 1px solid grey;
   background-color: white;
+  color: black;
 }

@@ -39,15 +39,20 @@ export class Product extends React.Component {
     let product = productInfo.data;
 
     return (
-      <div>
-        <div className="product">
-          <img src={product.productImage} alt={product.name} />
+      <div className="product">
+        <div className="product-info">
+          <img
+            className="product-img"
+            src={product.productImage}
+            alt={product.name}
+          />
           <div className="product-detail">
             <h3>{product.name.toUpperCase()}</h3>
 
             <p>Product ID: {product.productId}</p>
             <p>Description: {product.productDescription}</p>
             <p>Price: {product.listPrice}</p>
+
             <button
               className="dark-btn"
               onClick={() => {
@@ -58,28 +63,34 @@ export class Product extends React.Component {
             </button>
           </div>
         </div>
-        <ul className="products">
-          {product.relatedProducts.map(relatedProduct => {
-            return (
-              <li key={relatedProduct.productId} className="product-overview">
-                <Link
-                  to={`/product/${relatedProduct.productId}`}
-                  className="product-overview-detail link"
+        <div>
+          <h2>Related Products</h2>
+          <ul className="related-products">
+            {product.relatedProducts.slice(0, 5).map(relatedProduct => {
+              return (
+                <li
+                  key={relatedProduct.productId}
+                  className="related-product-overview"
                 >
-                  <img
-                    src={relatedProduct.productImage}
-                    alt={relatedProduct.name}
-                  />
+                  <Link className="link" to={`/product/${Product.productId}`}>
+                    <img
+                      className="related-product-img"
+                      src={relatedProduct.productImage}
+                      alt={relatedProduct.name}
+                    />
 
-                  {relatedProduct.name.toUpperCase()}
-                </Link>
-                <p className="product-overview-detail">
-                  {relatedProduct.listPrice}
-                </p>
-              </li>
-            );
-          })}
-        </ul>
+                    <p className="related-product-overview-detail">
+                      {relatedProduct.name.toUpperCase()}{" "}
+                    </p>
+                  </Link>
+                  <p className="related-product-overview-detail">
+                    {relatedProduct.listPrice}
+                  </p>
+                </li>
+              );
+            })}
+          </ul>
+        </div>
       </div>
     );
   }

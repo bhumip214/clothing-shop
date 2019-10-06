@@ -1,5 +1,6 @@
 import React from "react";
 import Select from "react-select";
+import "./sort.css";
 
 const sortOptions = [
   { value: "relevance", label: "Featured" },
@@ -34,8 +35,9 @@ export function Sort(props) {
   });
 
   return (
-    <div className="">
+    <div className="sort">
       <Select
+        className="select"
         value={option}
         name="sort"
         options={sortOptions}
@@ -45,6 +47,7 @@ export function Sort(props) {
         }}
       />
       <Select
+        className="select"
         value={color}
         name="color"
         isClearable
@@ -63,6 +66,7 @@ export function Sort(props) {
       />
 
       <Select
+        className="select"
         value={size}
         name="size"
         isClearable
