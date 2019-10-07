@@ -2,6 +2,8 @@ import React from "react";
 import PropTypes from "prop-types";
 import "./Cart.css";
 import { Link } from "react-router-dom";
+import Loader from "react-loader-spinner";
+import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 
 export function Cart(props) {
   const { cart, fetchProductById } = props;
@@ -35,7 +37,15 @@ export function Cart(props) {
   });
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return (
+      <Loader
+        type="Puff"
+        color="#333"
+        height="100"
+        width="100"
+        className="loader"
+      />
+    );
   }
 
   return (
@@ -44,7 +54,7 @@ export function Cart(props) {
         <h3>Cart</h3>
         <span>({props.count} items)</span>
       </div>
-      <div className="cart-table">
+      <div className="cart-table ">
         <p>Item</p>
         <p>Qty</p>
         <p>Price</p>
@@ -69,19 +79,20 @@ export function Cart(props) {
                       to={`/product/${item.productId}`}
                       className="product-overview-detail link"
                     >
-                      <p>{item.name.toUpperCase()}</p>
+                      <p className="cart-item-name">
+                        {item.name.toUpperCase()}
+                      </p>
                     </Link>
                     <button
+                      className="light-btn"
                       onClick={() => props.handleDeleteFromCart(item.uniqueId)}
                     >
                       Remove
                     </button>
                   </div>
                 </div>
-                <p className="product-overview-detail">
-                  {props.cart[index].qty}
-                </p>
-                <p className="product-overview-detail">
+                <p className="item-qty">{props.cart[index].qty}</p>
+                <p className="item-price">
                   ${item.listPrice.slice(1) * props.cart[index].qty}
                 </p>
               </li>

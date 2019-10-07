@@ -25,8 +25,8 @@ export function Products(props) {
         <Loader
           type="Puff"
           color="#333"
-          height="100"
-          width="100"
+          height="70"
+          width="70"
           className="loader"
         />
       ) : (
@@ -47,7 +47,11 @@ export function Products(props) {
                     to={`/product/${product.uniqueId}`}
                     className="product-overview-detail link"
                   >
-                    <img src={product.productImage} alt={product.name} />
+                    <img
+                      className="products-img"
+                      src={product.productImage}
+                      alt={product.name}
+                    />
 
                     {product.name.toUpperCase()}
                   </Link>
