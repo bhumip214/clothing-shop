@@ -1,8 +1,18 @@
-React Shopping Cart
+# React Shopping Cart
 
-## REST API
-- `yarn server` or `yarn dev_server` (uses nodemon).
-- See `server/app.js` for available API.
+- Responsive frontend for an e-commerce store using React, Hooks, React Select and React Router.
+- Sorting and filter functionality with URL bookmarking support.
+- Product detail page and show related products.
+- Basic cart functionality.
 
-## UI
-- `yarn start`
+
+## Run locally
+
+#### Install:
+`yarn install`
+
+#### Start Server
+`yarn server`
+
+#### Start UI
+`yarn start`
