@@ -8,7 +8,7 @@
 
 ## Run locally
 
-#### Install:
+#### Install
 `yarn install`
 
 #### Start Server
