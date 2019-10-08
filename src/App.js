@@ -54,6 +54,18 @@ class App extends React.Component {
     });
   }
 
+  getQueryString = (page, sort, color, size) => {
+    if (color.length !== 0 && size.length !== 0) {
+      return `?page=${page}&sort=${sort}&color=${color}&size=${size}`;
+    } else if (color.length !== 0) {
+      return `?page=${page}&sort=${sort}&color=${color}`;
+    } else if (size.length !== 0) {
+      return `?page=${page}&sort=${sort}&size=${size}`;
+    } else {
+      return `?page=${page}&sort=${sort}`;
+    }
+  };
+
   performFetchProducts = (page, sort, color, size, updateHistory = true) => {
     this.setState({
       currPage: page,
@@ -80,18 +92,20 @@ class App extends React.Component {
       });
 
     if (updateHistory) {
-      if (color.length !== 0) {
-        return this.props.history.push(
-          `?page=${page}&sort=${sort}&color=${color}&size=${size}`
-        );
-      } else {
-        return this.props.history.push(
-          `?page=${page}&sort=${sort}&size=${size}`
-        );
-      }
+      const query = this.getQueryString(page, sort, color, size);
+      this.props.history.push(query);
     }
 
     return promise;
+  };
+
+  handleGoToPage = page => {
+    this.performFetchProducts(
+      page,
+      this.state.sort,
+      this.state.color,
+      this.state.size
+    );
   };
 
   handleSort = sort => {
@@ -104,14 +118,6 @@ class App extends React.Component {
 
   handleSize = size => {
     this.performFetchProducts(1, this.state.sort, this.state.color, size);
-  };
-  handleGoToPage = page => {
-    this.performFetchProducts(
-      page,
-      this.state.sort,
-      this.state.color,
-      this.state.size
-    );
   };
 
   /**
