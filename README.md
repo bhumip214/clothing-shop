@@ -5,14 +5,16 @@
 - Product detail page and show related products.
 - Basic cart functionality.
 
-
 ## Run locally
 
 #### Install
+
 `yarn install`
 
 #### Start Server
-`yarn server`
+
+`yarn start`
 
 #### Start UI
-`yarn start`
+
+`yarn ui`
