@@ -14,6 +14,15 @@ export function Cart(props) {
     });
   }, [cart, fetchProductById]);
 
+  if (cart.length === 0) {
+    return (
+      <div>
+        <h2>No items exist in your cart. :(</h2>
+        <Link to="/">Continue Shopping</Link>
+      </div>
+    );
+  }
+
   // isLoading = is any item loading
   let isLoading = false;
   // hasError = does any item have error
