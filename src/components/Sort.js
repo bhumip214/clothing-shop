@@ -50,6 +50,7 @@ export function Sort(props) {
         className="select"
         value={color}
         name="color"
+        placeholder="Filter by color"
         isClearable
         isMulti
         options={colorOptions}
@@ -71,6 +72,7 @@ export function Sort(props) {
         name="size"
         isClearable
         isMulti
+        placeholder="Filter by size"
         options={sizeOptions}
         onChange={(sizeOption, action) => {
           if (sizeOption) {
