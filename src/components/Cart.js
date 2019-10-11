@@ -85,7 +85,7 @@ export function Cart(props) {
                     </Link>
                     <button
                       className="light-btn"
-                      onClick={() => props.handleDeleteFromCart(item.uniqueId)}
+                      onClick={() => props.handleDeleteFromCart(item.productId)}
                     >
                       Remove
                     </button>
